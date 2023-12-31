@@ -1,4 +1,11 @@
 {
-  "FSPB":["SPB","Kapal","GT","Nahkoda","Call Sign","Jumlah Awak","Bendera","Agen","Pelabuhan Asal","Tanggal Tiba","Posisi Tolak","Pelabuhan Tujuan","Tanggal Tolak"],
-  "FLKK":["NOMOR SPB","JENIS KAPAL"]
+  "FSPB":["SPB","Kapal","GT","Nakhoda","Call Sign","Jumlah Awak","Bendera","Agen","Pelabuhan Asal","Tanggal Tiba",
+          "Posisi Tolak","Pelabuhan Tujuan","Tanggal Tolak"],
+  "FLKK":["SPB","Tipe Kapal"],
+  "OutputHeader":["NO","NO SPB TOLAK","PPK 27","PPK 29","NAMA KAPAL","GT","NT","TANDA SELAR","TEMPAT PENDAFTARAN",
+                  "NAKHODA","TANDA PANGGIL","CREW","BENDERA","PEMILIK/AGEN","ASAL","TANGGAL TIBA","JAM TIBA",
+                  "TIBA ISI/KOSONG","MUATAN BONGKAR","JUMLAH MUATAN BONGKAR","SATUAN MUATAN BONGKAR","JENIS BARANG",
+                  "LOKASI BONGKAR","NO SPB TIBA","TEMPAT TOLAK","TUJUAN","TANGGAL TOLAK","JAM TOLAK","TOLAK ISI/KOSONG",
+                  "MUATAN TOLAK","JUMLAH MUATAN TOLAK","SATUAN MUATAN TOLAK","JENIS MUATAN","LOKASI MUAT","KETERANGAN",
+                  "KATEGORI","SHIPPER"]
 }
