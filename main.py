@@ -15,10 +15,16 @@ def load_json(filename='None'):
     return loadfile
 
 
-dfspb = read_file('materials/SPB.IDBYQ.12.2023.xls')
-dflkd = read_file('materials/LK3.DN.IDBYQ.2023-12-01.xls')
-dflke = read_file('materials/LK3.LN.IDBYQ.2023-12-01.xls')
+def pull_data(target, source):
+    pulled = {}
+    target01, target02 = target
+    source01, source02 = source
 
-output_dict = load_json('json/output_dict.json')
-target = load_json('json/targets.json')
-target_spb, target_lkk = target['FSPB'], target['FLKK']
+
+dfspb = read_file('materials/SPB.IDBYQ.12.2023.xls')
+dflkk = read_file('materials/LK3.IDBYQ.2023-12-01.xls')
+
+targets = load_json('json/targets.json')
+target_spb, target_lkk, OutputHeader = targets['FSPB'], targets['FLKK'], targets['OutputHeader']
+
+pull_data([target_spb, target_lkk], [dfspb, dflkk])
