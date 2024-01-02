@@ -15,10 +15,24 @@ def load_json(filename='None'):
     return loadfile
 
 
+def temp_storage(dataframe, target_column):
+    temp = {}
+    for item in target_column:
+        dataframe[item] = dataframe[item].fillna(0)
+        temp[item] = dataframe[item].tolist()
+
+    return temp
+
+
 def pull_data(target, source):
     pulled = {}
     target01, target02 = target
     source01, source02 = source
+
+    for item in target01:
+        pulled[item] = source01[item].tolist()
+
+    reference = temp_storage(source02, target02)
 
 
 dfspb = read_file('materials/SPB.IDBYQ.12.2023.xls')
