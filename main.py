@@ -1,6 +1,7 @@
 import pandas
 import json
 import numpy
+import csv
 
 
 def read_file(filename='None'):
@@ -34,9 +35,19 @@ def count_nonzero(data_list):
     return counts
 
 
+def availability_checked(given_list):
+    if any(given_list) != 0:
+        new_list = [element for element in given_list if element != 0]
+    else:
+        new_list = 0
+
+    return new_list
+
+
 def return_indexes(handled_data, step_size=1):
-    index_list = [idx for idx, item in enumerate(handled_data) if item == 0]
+    index_list = [idx for idx, item in enumerate(handled_data) if item == '-']
     consecutives = numpy.split(index_list, numpy.where(numpy.diff(index_list) != step_size)[0] + 1)
+    
     for idx, sublist in enumerate(consecutives):
         sublist = sublist.tolist()
         sublist.insert(0, sublist[0]-1)
@@ -45,78 +56,111 @@ def return_indexes(handled_data, step_size=1):
     return consecutives
 
 
-def assign_subdata(handled_data, indices, target_keys):
-    for sublist in indices:
-        new_row_arrived: dict = {key: [] for key in target_keys[:5]}
-        new_row_departed = {key: [] for key in target_keys[5:]}
-        for item in target_keys:
-            new_arrived, new_departed = [], []
-            for idx in sublist:
-                if item in target_keys[:5]:
-                    new_arrived.append(handled_data[item][idx])
-                elif item in target_keys[5:]:
-                    new_departed.append(handled_data[item][idx])
+def new_row_appender(collections, validations):
+    the_key, marked_keys = validations
+    dict_01, dict_02, list_01, list_02 = collections
 
-            if any(new_arrived) != 0:
-                new_arrived = [element for element in new_arrived if element != 0]
-            else:
-                new_arrived = 0
+    if the_key in marked_keys[:5]:
+        dict_01[the_key].append(list_01)
+    elif the_key in marked_keys[5:]:
+        dict_02[the_key].append(list_02)
 
-            if any(new_departed) != 0:
-                new_departed = [element for element in new_departed if element != 0]
-            else:
-                new_departed = 0
+    return dict_01, dict_02
 
-            if item in target_keys[:5]:
-                new_row_arrived[item].append(new_arrived)
-            elif item in target_keys[5:]:
-                new_row_departed[item].append(new_departed)
 
-        for item in target_keys:
-            if item in target_keys[:5]:
-                handled_data[item][sublist[0]] = new_row_arrived[item]
-            elif item in target_keys[5:]:
-                handled_data[item][sublist[0]] = new_row_departed[item]
+def new_item_appender(given_data, validators):
+    list_01, list_02 = [], []
+    the_key, index_list, marked_keys = validators
+
+    for idx in index_list:
+        if the_key in marked_keys[:5]:
+            list_01.append(given_data[the_key][idx])
+        elif the_key in marked_keys[5:]:
+            list_02.append(given_data[the_key][idx])
+
+    return list_01, list_02
+
+def assign_subdata(handled_data, index_list, target_keys):
+    new_row_arrived = {key: [] for key in target_keys[:5]}
+    new_row_departed = {key: [] for key in target_keys[5:]}
+
+    for item in target_keys:
+        new_arrived, new_departed = new_item_appender(handled_data, [item, index_list, target_keys])
+
+        new_arrived = availability_checked(new_arrived)
+        new_departed = availability_checked(new_departed)
+
+        collections = new_row_arrived, new_row_departed, new_arrived, new_departed
+
+        new_row_arrived, new_row_departed = new_row_appender(collections, [item, target_keys])
+
+    for item in target_keys:
+        if item in target_keys[:5]:
+            handled_data[item][index_list[0]] = new_row_arrived[item]
+        elif item in target_keys[5:]:
+            handled_data[item][index_list[0]] = new_row_departed[item]
 
     return handled_data
 
 
 def handle_loads(handled, target):
     indices = return_indexes(handled['SPB'])
-    refined = assign_subdata(handled, indices, target)
+    for index_list in indices:
+        refined = assign_subdata(handled, index_list, target)
+
+    #print (refined['Komoditi B'])
 
     return refined
 
 
 def pull_data(target, source):
     ships_info = {}
-    target01, target02, target03 = target
+    target01, target02 = target
     source01, source02 = source
 
     for item in target01:
         ships_info[item] = source01[item].tolist()
     loads_info = temp_storage(source02, target02)
-    loads_info = handle_loads(loads_info, target03)
+
+    #print(loads_info['Komoditi B'])
+
+    loads_info = handle_loads(loads_info, target02[1:])
+
+    #print(loads_info['Komoditi M'])
 
     return ships_info, loads_info
 
 
-def write_entry(clearance, loads_data, header):
-    written_entry = {}
-    if count_nonzero(clearance['SPB']) == count_nonzero(loads_data['SPB']):
-        for item in header:
-            if item in clearance.keys() and item in loads_data.keys():
-                written_entry[item] = clearance[item]
-            # if item in loads_data.keys():
-                # written_entry[item] = loads_data[item]
+def combine_entries(separated_data, header):
+    clearance, loadings = separated_data
+    n_empty_list = [0] * len(clearance['SPB'])
+    written = {key: n_empty_list for key in header}
+
+    for key in clearance:
+        written[key] = clearance[key]
+    
+    loading_keys = list(loadings.keys())
+    loading_keys = loading_keys
+
+    for key in loading_keys:
+        for idx, id in enumerate(clearance['SPB']):
+            written[key][idx] = loadings[key][loadings['SPB'].index(id)]
+            print(written[key][idx], loadings[key][loadings['SPB'].index(id)], loadings['SPB'][loadings['SPB'].index(id)])
+        
+    print(written['Komoditi M'])
+
+    return written
 
 
 dfspb = read_file('materials/SPB.IDBYQ.12.2023.xls')
 dflkk = read_file('materials/LK3.IDBYQ.2023-12-01.xls')
+targets = load_json('materials/dicts.json')
 
-targets = load_json('json/targets.json')
-target_spb, target_lkk, target_lkk_lite = targets['FSPB'], targets['FLKK'], targets['FLKK_LITE']
+target_spb, target_lkk = targets['FSPB'], targets['FLKK']
 combined_set, output_header = targets['COMBINED_SET'], targets['OUTPUT_HEADER']
 
-materials = pull_data([target_spb, target_lkk, target_lkk_lite], [dfspb, dflkk])
-# write_entry(materials[0],materials[1], combined_set)
+materials = pull_data([target_spb, target_lkk], [dfspb, dflkk])
+result = combine_entries(materials, combined_set)
+
+result = pandas.DataFrame(result)
+result.to_excel('materials/Entries.xlsx')
