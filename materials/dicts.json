@@ -1,14 +1,14 @@
 {
-  "FSPB":["SPB","Tipe Kapal","Kapal","GT","Nakhoda","Call Sign","Jumlah Awak","Bendera","Agen","Pelabuhan Asal","Tanggal Tiba",
-          "Posisi Tolak","Pelabuhan Tujuan","Tanggal Tolak"],
+  "FSPB":["SPB","Tipe Kapal","Kapal","GT","Nakhoda","Call Sign","Jumlah Awak","Bendera","Agen",
+          "Pelabuhan Asal","Tanggal Tiba","Posisi Tolak","Pelabuhan Tujuan","Tanggal Tolak"],
   "FLKK":["SPB","Komoditi B","Ton B","M3 B","Unit B","Orang B","Komoditi M","Ton M","M3 M","Unit M","Orang M"],
-  "COMBINED_SET":["SPB","Tipe Kapal","Kapal","GT","Nakhoda","Call Sign","Jumlah Awak","Bendera","Agen","Pelabuhan Asal",
-                  "Tanggal Tiba","Komoditi B","Ton B","M3 B","Unit B","Orang B","Posisi Tolak","Pelabuhan Tujuan",
-                  "Tanggal Tolak","Komoditi M","Ton M","M3 M","Unit M","Orang M"],
-  "OUTPUT_HEADER":["NO","SPB TOLAK","PPK 27","PPK 29","NAMA KAPAL","GT","NT","TANDA SELAR","TEMPAT PENDAFTARAN",
-                  "NAKHODA","TANDA PANGGIL","CREW","BENDERA","PEMILIK/AGEN","ASAL","TANGGAL TIBA","JAM TIBA",
-                  "TIBA ISI/KOSONG","MUATAN BONGKAR","JUMLAH MUATAN BONGKAR","SATUAN MUATAN BONGKAR","JENIS BARANG",
-                  "LOKASI BONGKAR","NO SPB TIBA","TEMPAT TOLAK","TUJUAN","TANGGAL TOLAK","JAM TOLAK","TOLAK ISI/KOSONG",
-                  "MUATAN TOLAK","JUMLAH MUATAN TOLAK","SATUAN MUATAN TOLAK","JENIS MUATAN","LOKASI MUAT","KETERANGAN",
-                  "KATEGORI","SHIPPER"]
+  "COMBINED_SET":["SPB","Tipe Kapal","Kapal","GT","Nakhoda","Call Sign","Jumlah Awak","Bendera","Agen",
+                  "Pelabuhan Asal","Tanggal Tiba","Komoditi B","Ton B","M3 B","Unit B","Orang B","Posisi Tolak","Pelabuhan Tujuan","Tanggal Tolak","Komoditi M","Ton M","M3 M","Unit M","Orang M"],
+  "OUTPUT_HEADER":["NO","SPB TOLAK","PPK 27","PPK 29","NAMA KAPAL","GT","NT","TANDA SELAR",
+                   "TEMPAT PENDAFTARAN","NAKHODA","TANDA PANGGIL","CREW","BENDERA","PEMILIK/AGEN","ASAL",
+                   "TANGGAL TIBA","JAM TIBA","TIBA ISI/KOSONG","MUATAN BONGKAR","JUMLAH MUATAN BONGKAR",
+                   "SATUAN MUATAN BONGKAR","JENIS BARANG","LOKASI BONGKAR","NO SPB TIBA","TEMPAT TOLAK",
+                   "TUJUAN","TANGGAL TOLAK","JAM TOLAK","TOLAK ISI/KOSONG","MUATAN TOLAK",
+                   "JUMLAH MUATAN TOLAK","SATUAN MUATAN TOLAK","JENIS MUATAN","LOKASI MUAT","KETERANGAN",
+                   "KATEGORI","SHIPPER"]
 }
